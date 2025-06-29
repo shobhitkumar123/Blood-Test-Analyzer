@@ -1,0 +1,31 @@
+| Error Type              | How to Debug / Fix                                                 |
+| ----------------------- | ------------------------------------------------------------------ |
+| CSV parsing issues      | Check header names, use `try-except` around float conversion.      |
+| File not found          | Confirm `data/report.csv` exists, use `os.path.exists()` to check. |
+| ValueError (float fail) | Print row contents before converting to `float`.                   |
+| Unit mismatches         | Add logging to track marker names and units.                       |
+| Missing reference range | Print warnings for unknown markers.                                |
+g++ -std=c++17 -g -o health_analyzer main.cpp
+gdb ./health_analyzer
+Handle Security Concerns
+Disallow arbitrary file uploads.
+
+Run on a secure server.
+
+Validate all filenames and limit extensions (.csv, .pdf).
+
+Sanitize output shown in web interface (FastAPI: use Pydantic schemas).
+
+Keep dependencies up to date (pip install --upgrade or apt/brew).
+
+name: Test Analyzer
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Tests
+        run: |
+          pip install -r requirements.txt
+          pytest
