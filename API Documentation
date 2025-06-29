@@ -1,0 +1,122 @@
+API-style documentation for your HealthAnalyzer++ C++ project. This is suitable for README files, developer references, or integration notes.
+
+📊 HealthAnalyzer++: Blood Test Analysis Tool
+Description:
+HealthAnalyzer++ is a lightweight C++ application designed to analyze blood test reports from CSV files, compare the results to standard medical reference ranges, and provide basic health, nutrition, and exercise advice.
+
+🔧 Compilation
+bash
+Copy
+Edit
+g++ -std=c++17 -o health_analyzer main.cpp
+Ensure you have a valid CSV file at data/report.csv.
+
+📁 CSV Input Format
+File: data/report.csv
+
+Expected Format:
+
+cs
+Copy
+Edit
+Name,Value,Unit
+Hemoglobin,12.5,g/dL
+WBC,7800,per µL
+Cholesterol,210,mg/dL
+Vitamin D,20,ng/mL
+Name: The blood marker name (e.g., "Hemoglobin").
+
+Value: Numeric value of the test result.
+
+Unit: Unit of measurement (e.g., mg/dL, g/dL).
+
+🔍 Functional Overview
+struct Marker
+Represents a single blood test entry.
+
+cpp
+Copy
+Edit
+struct Marker {
+    std::string name;
+    double value;
+    std::string unit;
+};
+std::vector<Marker> parseCSV(const std::string& filepath)
+Parses the CSV file into a vector of Marker objects.
+
+Input: Filepath to CSV
+
+Output: Vector of Marker structs
+
+Throws: May throw std::invalid_argument or std::ifstream::failbit exceptions if file is invalid or corrupt.
+
+🧠 Analysis Logic
+Reference Ranges
+cpp
+Copy
+Edit
+std::map<std::string, std::pair<double, double>> refRanges = {
+    {"Hemoglobin", {13.0, 17.0}},
+    {"WBC", {4000, 10000}},
+    {"Cholesterol", {0, 200}},
+    {"Vitamin D", {30, 100}}
+};
+Each marker is compared against its reference range:
+
+If below: marked "Low"
+
+If above: marked "High"
+
+Within range: marked "Normal"
+
+🍽 Nutrition Advice
+Given based on abnormalities:
+
+Low Vitamin D → Sunlight + fatty fish
+
+High Cholesterol → Avoid fats + increase fiber
+
+Low Hemoglobin → Iron-rich diet
+
+🏃 Exercise Suggestions
+Always recommended:
+
+30 min light cardio (5x/week)
+
+Strength training (2x/week)
+
+Daily stretching
+
+📦 Sample Output
+markdown
+Copy
+Edit
+--- Blood Test Report Analysis ---
+Hemoglobin: 12.5 g/dL
+  - Low. Consider consulting a doctor.
+WBC: 7800 per µL
+  - Normal.
+Cholesterol: 210 mg/dL
+  - High. May need lifestyle or medical changes.
+Vitamin D: 20 ng/mL
+  - Low. Consider consulting a doctor.
+
+Nutrition Advice:
+- Increase sun exposure and eat fatty fish (like salmon).
+- Avoid saturated fats. Add oats and fiber-rich foods.
+- Eat iron-rich foods (spinach, red meat, lentils).
+
+Exercise Recommendation:
+- 30 minutes of walking or light cardio, 5 days a week.
+- Include strength training twice a week.
+- Stretch daily.
+✅ Future Improvements
+Add unit testing for CSV parsing and range checks.
+
+Support configurable reference ranges via JSON or config files.
+
+Extend nutrition/exercise advice based on multiple combined markers.
+
+Add GUI support or web API integration.
+
